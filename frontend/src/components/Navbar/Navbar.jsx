@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
 
 const Navbar = ({ setShowLogin }) => {
@@ -10,12 +10,7 @@ const Navbar = ({ setShowLogin }) => {
   const { getTotalCart, isLoggedIn, currentUser, logout, setSearchTerm } =
     useContext(StoreContext);
 
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
@@ -51,42 +46,13 @@ const Navbar = ({ setShowLogin }) => {
         >
           Home
         </Link>
-        <a
-          href="#about"
-          onClick={(e) => {
-            e.preventDefault();
-            setMenu("about");
-            scrollToSection("about");
-          }}
-          className={menu === "about" ? "active" : ""}
-        >
-          About
-        </a>
-        <a
-          href="#footer"
-          onClick={(e) => {
-            e.preventDefault();
-            setMenu("contact");
-            scrollToSection("footer");
-          }}
-          className={menu === "contact" ? "active" : ""}
-        >
-          Contact
-        </a>
-        <a
-          href="#explore-menu"
-          onClick={(e) => {
-            e.preventDefault();
-            setMenu("menu");
-            scrollToSection("explore-menu");
-          }}
-          className={menu === "menu" ? "active" : ""}
-        >
-          Menu
-        </a>
+        <a href="#about">About</a>
+        <a href="#footer">Contact</a>
+        <a href="#explore-menu">Menu</a>
       </ul>
+
       <div className="navbar-right">
-        {/* Search Bar */}
+        {/* Search */}
         <div className="navbar-search">
           <input
             type="text"
@@ -97,6 +63,7 @@ const Navbar = ({ setShowLogin }) => {
           <i className="bi bi-search"></i>
         </div>
 
+        {/* Cart */}
         <div className="navbar-search-icon">
           <Link to="/cart">
             <i className="bi bi-cart3"></i>
@@ -104,30 +71,45 @@ const Navbar = ({ setShowLogin }) => {
           <div className={getTotalCart() === 0 ? "" : "dot"}></div>
         </div>
 
+        {/* AUTH */}
         {isLoggedIn ? (
           <div className="navbar-profile">
-  <div
-    className="navbar-profile-icon"
-    onClick={() => setShowDropdown((prev) => !prev)}
-  >
-    <i className="bi bi-person-circle"></i>
-    <span>{currentUser?.name}</span>
-  </div>
+            <div
+              className="navbar-profile-icon"
+              onClick={() => setShowDropdown((prev) => !prev)}
+            >
+              <i className="bi bi-person-circle"></i>
+              <span>{currentUser?.name}</span>
+            </div>
 
-  {showDropdown && (
-    <div className="navbar-dropdown">
-      <div className="dropdown-item">
-        <i className="bi bi-person"></i>
-        <span>{currentUser?.email}</span>
-      </div>
-      <div className="dropdown-item" onClick={handleLogout}>
-        <i className="bi bi-box-arrow-right"></i>
-        <span>Logout</span>
-      </div>
-    </div>
-  )}
-</div>
+            {showDropdown && (
+              <div className="navbar-dropdown">
+                <div className="dropdown-item">
+                  <i className="bi bi-envelope"></i>
+                  <span>{currentUser?.email}</span>
+                </div>
 
+                {/* ✅ ADMIN DASHBOARD INSIDE DROPDOWN */}
+                {currentUser?.role === "admin" && (
+                  <div
+                    className="dropdown-item"
+                    onClick={() => {
+                      navigate("/admin");
+                      setShowDropdown(false);
+                    }}
+                  >
+                    <i className="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                  </div>
+                )}
+
+                <div className="dropdown-item" onClick={handleLogout}>
+                  <i className="bi bi-box-arrow-right"></i>
+                  <span>Logout</span>
+                </div>
+              </div>
+            )}
+          </div>
         ) : (
           <button onClick={() => setShowLogin(true)}>Sign In</button>
         )}

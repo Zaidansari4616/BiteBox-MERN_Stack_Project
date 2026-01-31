@@ -1,42 +1,39 @@
-require("dotenv").config();
 const express = require("express");
+const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const connectDB = require("./config/db");
+require("dotenv").config();
 
-const app = express(); // 👈 app created FIRST
+const app = express();
 
-/* ======================
-   DATABASE CONNECTION
-====================== */
-connectDB();
-
-/* ======================
-   MIDDLEWARE (VERY IMPORTANT)
-====================== */
-app.use(express.json()); // 👈 REQUIRED for req.body
+/* 🔥 MIDDLEWARE ORDER IS CRITICAL */
+app.use(express.json());
 app.use(cookieParser());
 
 app.use(
   cors({
     origin: "http://localhost:5173",
-    credentials: true,
+    credentials: true, // 🔥 ALLOW COOKIES
   })
 );
 
-/* ======================
-   ROUTES
-====================== */
+/* ROUTES */
 app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/foods", require("./routes/foodRoutes"));
 
+/* TEST ROUTE */
 app.get("/", (req, res) => {
-  res.send("Backend is running 🚀");
+  res.send("Backend running");
 });
 
-/* ======================
-   START SERVER
-====================== */
+/* DB */
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log(err));
+
+/* SERVER */
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+app.listen(PORT, () =>
+  console.log(`Server running on port ${PORT}`)
+);

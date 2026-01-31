@@ -3,16 +3,20 @@ const {
   getFoods,
   createFood,
   updateFood,
-  deleteFood
+  deleteFood,
 } = require("../controllers/foodController");
 
 const protect = require("../middleware/authMiddleware");
+const isAdmin = require("../middleware/isAdminMiddleware");
 
 const router = express.Router();
 
-router.get("/", getFoods);          // public
-router.post("/", protect, createFood);
-router.put("/:id", protect, updateFood);
-router.delete("/:id", protect, deleteFood);
+// PUBLIC
+router.get("/", getFoods);
+
+// ADMIN ONLY
+router.post("/", protect, isAdmin, createFood);
+router.put("/:id", protect, isAdmin, updateFood);
+router.delete("/:id", protect, isAdmin, deleteFood);
 
 module.exports = router;

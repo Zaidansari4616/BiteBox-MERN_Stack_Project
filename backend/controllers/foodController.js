@@ -23,16 +23,36 @@ exports.createFood = async (req, res) => {
 /* UPDATE FOOD */
 exports.updateFood = async (req, res) => {
   try {
-    const food = await Food.findByIdAndUpdate(
+    const { name, price, category, image, description } = req.body;
+
+    if (!name || !price || !category) {
+      return res
+        .status(400)
+        .json({ message: "Name, price and category are required" });
+    }
+
+    const updatedFood = await Food.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      {
+        name,
+        price,
+        category,
+        image,
+        description,
+      },
       { new: true }
     );
-    res.json(food);
+
+    if (!updatedFood) {
+      return res.status(404).json({ message: "Food not found" });
+    }
+
+    res.json(updatedFood);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
+
 
 /* DELETE FOOD */
 exports.deleteFood = async (req, res) => {

@@ -31,38 +31,34 @@ const StoreContextProvider = (props) => {
       });
   }, []);
 
-  /* ===========================
-     FETCH FOOD DATA
-     =========================== */
+  /* FETCH FOOD DATA*/
   useEffect(() => {
-    const fetchFoodData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch("http://localhost:3001/food_list");
+  const fetchFood = async () => {
+    try {
+      setLoading(true);
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch food data");
-        }
+      const res = await fetch("http://localhost:5000/api/foods");
 
-        const data = await response.json();
-        setFoodList(data);
-        setError(null);
-      } catch (err) {
-        // fallback (your existing logic preserved)
-        import("../components/Data/Data").then((module) => {
-          setFoodList(module.food_list);
-        });
-      } finally {
-        setLoading(false);
+      if (!res.ok) {
+        throw new Error("Failed to fetch foods");
       }
-    };
 
-    fetchFoodData();
-  }, []);
+      const data = await res.json();
+      setFoodList(data);
+      setError(null);
+    } catch (err) {
+      console.error("Food fetch error:", err);
+      setError("Failed to load food items");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  /* ===========================
-     CART (UNCHANGED LOGIC)
-     =========================== */
+  fetchFood();
+}, []);
+
+
+  /*CART (UNCHANGED LOGIC)*/
   useEffect(() => {
     const savedCart = localStorage.getItem("cartItems");
     if (savedCart) {

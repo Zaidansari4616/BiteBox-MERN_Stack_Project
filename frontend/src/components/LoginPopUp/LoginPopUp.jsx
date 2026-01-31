@@ -23,7 +23,7 @@ function LoginPopUp({ setShowLogin }) {
     if (currState === "Sign Up") {
       try {
         const res = await fetch(
-          "http://127.0.0.1:5000/api/auth/register",
+          "http://localhost:5000/api/auth/register",
           {
             method: "POST",
             headers: {
@@ -57,7 +57,7 @@ function LoginPopUp({ setShowLogin }) {
     else {
       try {
         const res = await fetch(
-          "http://127.0.0.1:5000/api/auth/login",
+          "http://localhost:5000/api/auth/login",
           {
             method: "POST",
             headers: {

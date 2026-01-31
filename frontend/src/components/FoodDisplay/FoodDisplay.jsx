@@ -30,14 +30,17 @@ function FoodDisplay({ category }) {
   }
 
   // Filter food items by category AND search term
-  const filteredFood = food_list.filter(item => {
-    const matchesCategory = category === "All" || category === item.category;
-    const matchesSearch = searchTerm === "" || 
-                          item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          item.category.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+ const filteredFood = food_list.filter((item) => {
+  const matchesCategory =
+    category === "All" || category === item.category;
+
+  const matchesSearch =
+    searchTerm === "" ||
+    item.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+  return matchesCategory && matchesSearch;
+});
+
 
   // Show empty state if no results
   if (filteredFood.length === 0) {

@@ -8,8 +8,9 @@ function FoodItem({ id, name, price, description, image }) {
   return (
     <div className="food-item">
       <div className="food-item-img-container">
+        {/* ✅ FIX HERE */}
         <img className="food-item-img" src={image} alt={name} />
-        
+
         {!cartItems[id] ? (
           <button className="add-btn" onClick={() => addToCart(id)}>
             <i className="bi bi-plus"></i>
@@ -26,7 +27,7 @@ function FoodItem({ id, name, price, description, image }) {
           </div>
         )}
       </div>
-      
+
       <div className="food-item-info">
         <p className="food-item-name">{name}</p>
         <p className="food-item-desc">{description}</p>

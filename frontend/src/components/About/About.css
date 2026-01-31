@@ -1,36 +1,56 @@
 .about {
-  min-height: 100vh;
-  height: auto;
+  min-height: calc(100vh - 100px); /* 👈 adjust for navbar */
   width: 90%;
   margin: 30px auto;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+  background: 
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url("/bg1.jpg") no-repeat;
   background-size: cover;
-  background-position: center center;
+  background-position: center;
   position: relative;
-  margin-top: 100px;
   border-radius: 15px;
+  padding-top: 40px; /* spacing INSIDE instead of margin-top */
+  box-sizing: border-box;
+}
+
+
+
+#about{
+   scroll-margin-top: 100px
 }
 
 .about-content {
   animation: fadeIn 3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* TITLE */
 .about-content h2 {
   font-weight: 500;
   color: white;
   font-size: 60px;
-  padding: 50px;
   text-align: center;
+  max-width: 900px;
+  margin: 0 auto 20px;
 }
 
+/* PARAGRAPH */
 .about-content p {
   color: white;
-  line-height: 1.5rem;
+  line-height: 1.8rem;
   font-size: 20px;
-  text-align: center;
-  padding: 0px 100px;
+
+  max-width: 900px;
+  margin: 0 auto;
+
+  text-align: justify;        /* ✅ KEY FIX */
+  text-justify: inter-word;  /* ✅ BETTER SPACING */
+  padding: 0 20px;
 }
+
+
 
 @media (max-width: 768px) {
   .about-content h2 {
@@ -39,6 +59,5 @@
 
   .about-content p {
     font-size: 16px;
-    padding: 0 20px;
   }
 }

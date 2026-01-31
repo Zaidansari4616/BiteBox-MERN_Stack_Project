@@ -1,0 +1,94 @@
+/* MAIN CONTAINER */
+.admin-dashboard {
+  padding: 30px;
+}
+
+.admin-dashboard h2 {
+  margin-bottom: 20px;
+  color: #018790;
+}
+
+/* CATEGORY BLOCK */
+.admin-category {
+  margin-bottom: 35px;
+}
+
+.admin-category-title {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #018790;
+  text-transform: capitalize;
+  border-bottom: 2px solid #e0f2f1;
+  padding-bottom: 6px;
+}
+
+/* FOOD CARD */
+.admin-food-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 12px;
+}
+
+/* LEFT SIDE (IMAGE + INFO) */
+.admin-food-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.admin-food-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.admin-food-info strong {
+  font-size: 16px;
+  display: block;
+}
+
+.admin-food-info p {
+  margin: 4px 0 0;
+  color: #018790;
+  font-weight: 600;
+}
+
+/* ACTION BUTTONS */
+.admin-food-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  background-color: #018790;
+  color: white;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background-color: #016c72;
+}
+
+.delete-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  background-color: #e53935;
+  color: white;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #c62828;
+}
