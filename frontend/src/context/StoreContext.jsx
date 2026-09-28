@@ -9,27 +9,32 @@ const StoreContextProvider = (props) => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
 
-  /* ===========================
-     AUTO LOGIN (COOKIE BASED)
-     =========================== */
-  useEffect(() => {
-    fetch("http://localhost:5000/api/auth/me", {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.message) {
-          setCurrentUser(data);
-          setIsLoggedIn(true);
-        }
-      })
-      .catch(() => {
+  /* AUTO LOGIN (COOKIE BASED) */
+ useEffect(() => {
+  fetch("http://localhost:5000/api/auth/me", {
+    credentials: "include",
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (!data.message) {
+        setCurrentUser(data);
+        setIsLoggedIn(true);
+      } else {
         setCurrentUser(null);
         setIsLoggedIn(false);
-      });
-  }, []);
+      }
+    })
+    .catch(() => {
+      setCurrentUser(null);
+      setIsLoggedIn(false);
+    })
+    .finally(() => {
+      setAuthLoading(false);
+    });
+}, []);
 
   /* FETCH FOOD DATA*/
   useEffect(() => {
@@ -113,9 +118,7 @@ const StoreContextProvider = (props) => {
     localStorage.removeItem("cartItems");
   };
 
-  /* ===========================
-     AUTH FUNCTIONS
-     =========================== */
+  /* AUTH FUNCTIONS*/
 
   // called after successful backend login
   const login = (userData) => {
@@ -152,6 +155,7 @@ const StoreContextProvider = (props) => {
     getTotalCart,
     clearCart,
     isLoggedIn,
+    authLoading,
     currentUser,
     login,
     logout,

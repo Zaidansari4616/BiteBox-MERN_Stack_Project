@@ -6,7 +6,6 @@ require("dotenv").config();
 
 const app = express();
 
-/* 🔥 MIDDLEWARE ORDER IS CRITICAL */
 app.use(express.json());
 app.use(cookieParser());
 
@@ -20,6 +19,7 @@ app.use(
 /* ROUTES */
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/foods", require("./routes/foodRoutes"));
+app.use("/api/orders", require("./routes/orderRoutes"));
 
 /* TEST ROUTE */
 app.get("/", (req, res) => {

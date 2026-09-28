@@ -67,6 +67,22 @@
   gap: 10px;
 }
 
+.add-food-btn {
+  padding: 10px 18px;
+  margin-bottom: 25px;
+  border: none;
+  border-radius: 8px;
+  background-color: #018790;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.add-food-btn:hover {
+  background-color: #016c72;
+}
+
 .edit-btn {
   padding: 6px 14px;
   border-radius: 6px;
@@ -91,4 +107,82 @@
 
 .delete-btn:hover {
   background-color: #c62828;
+}
+
+.admin-orders-section {
+  margin-top: 50px;
+}
+
+.admin-orders-section h2 {
+  margin-bottom: 20px;
+  color: #018790;
+}
+
+.admin-order-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 18px;
+  margin-bottom: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.admin-order-info h3 {
+  margin: 0 0 12px;
+  color: #018790;
+}
+
+.admin-order-info p {
+  margin: 6px 0;
+}
+
+.admin-order-status {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 180px;
+}
+
+.admin-order-status label {
+  font-weight: 600;
+}
+
+.admin-order-status select {
+  padding: 9px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.admin-order-status select:focus {
+  outline: none;
+  border-color: #018790;
+}
+
+.admin-section-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.admin-section-buttons button {
+  padding: 10px 18px;
+  border: 1px solid #018790;
+  border-radius: 8px;
+  background-color: white;
+  color: #018790;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-section-buttons button:hover,
+.admin-section-buttons .active-section-btn {
+  background-color: #018790;
+  color: white;
 }

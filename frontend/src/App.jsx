@@ -15,13 +15,16 @@ import AdminDashboard from "./admin/AdminDashboard";
 
 import { StoreContext } from "./context/StoreContext";
 
-/* =========================
-   ADMIN PROTECTED ROUTE
-   ========================= */
+/*ADMIN PROTECTED ROUTE*/
 const AdminRoute = ({ children }) => {
-  const { isLoggedIn, currentUser } = useContext(StoreContext);
+  const { isLoggedIn, authLoading, currentUser } = useContext(StoreContext);
+
+  if (authLoading) {
+    return <div>Loading...</div>;
+  }
 
   if (!isLoggedIn) return <Navigate to="/" replace />;
+
   if (currentUser?.role !== "admin") return <Navigate to="/" replace />;
 
   return children;
@@ -31,13 +34,16 @@ function App() {
   const [showLogin, setShowLogin] = useState(false);
   const location = useLocation();
 
-
-  /* ✅ FIX 2: Remove hash on refresh (no auto jump to menu) */
+  /* FIX 2: Remove hash on refresh (no auto jump to menu) */
   useEffect(() => {
     if (window.location.hash) {
       window.history.replaceState(null, "", window.location.pathname);
     }
   }, []);
+
+  useEffect(() => {
+  window.scrollTo(0, 0);
+}, [location.pathname]);
 
   return (
     <>
@@ -48,7 +54,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/cart" element={<Cart setShowLogin={setShowLogin} />} />
           <Route path="/order" element={<PlaceOrder />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/orders" element={<Orders />} />

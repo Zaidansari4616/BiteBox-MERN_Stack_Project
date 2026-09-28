@@ -83,6 +83,21 @@
   opacity: 0.9;
 }
 
+.admin-modal select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  background-color: white;
+}
+
+.admin-modal select:focus {
+  outline: none;
+  border-color: #018790;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

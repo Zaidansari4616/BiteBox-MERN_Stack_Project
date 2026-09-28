@@ -3,8 +3,9 @@ import "./Cart.css";
 import { StoreContext } from "../../context/StoreContext";
 import { useNavigate } from "react-router-dom";
 
-function Cart() {
-  const { cartItems, food_list, removeFromCart, getTotalCart } = useContext(StoreContext);
+function Cart({ setShowLogin }) {
+  const { cartItems, food_list, removeFromCart, getTotalCart, isLoggedIn } =
+    useContext(StoreContext);
   const navigate = useNavigate();
 
   const cartEmpty = getTotalCart() === 0;
@@ -78,7 +79,17 @@ function Cart() {
                 <b>Total</b>
                 <b>Rs.{getTotalCart() === 0 ? 0 : getTotalCart() + 50}</b>
               </div>
-              <button onClick={() => navigate("/order")}>PROCEED TO CHECKOUT</button>
+              <button
+                onClick={() => {
+                  if (!isLoggedIn) {
+                    setShowLogin(true);
+                    return;
+                  }
+                  navigate("/order");
+                }}
+              >
+                PROCEED TO CHECKOUT
+              </button>
             </div>
           </div>
         </>

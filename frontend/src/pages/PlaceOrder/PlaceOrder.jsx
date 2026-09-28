@@ -62,38 +62,77 @@ function PlaceOrder() {
       return `${item.name} x${cartItems[id]} = ₹${item.price * cartItems[id]}`;
     }).join('\n');
 
-    const orderData = {
+        const orderData = {
       ...formData,
       total: orderTotal,
       items: orderItems,
     };
 
     try {
+      // Save order to MongoDB
+      const res = await fetch("http://localhost:5000/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          items: cartItems,
+          totalAmount: orderTotal,
+        }),
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        throw new Error(result.message || "Order could not be placed");
+      }
+
+      orderData.order_id = result.orderId;
+
       // Check if email is configured
       if (isEmailConfigured()) {
-        // Send email confirmation
-        await sendOrderConfirmation(orderData);
-        alert(`✅ Order placed successfully!\n\n💰 Total: ₹${orderTotal}\n📧 Confirmation email sent to ${email}\n\nCheck your inbox!`);
+        try {
+          await sendOrderConfirmation(orderData);
+
+          alert(
+            `✅ Order placed successfully!\n\n` +
+            `🆔 Order ID: ${result.orderId}\n` +
+            `💰 Total: ₹${orderTotal}\n` +
+            `📧 Confirmation email sent to ${email}\n\n` +
+            `Check your inbox!`
+          );
+        } catch (emailError) {
+          console.error("Email confirmation failed:", emailError);
+
+          alert(
+            `✅ Order placed successfully!\n\n` +
+            `🆔 Order ID: ${result._id}\n` +
+            `💰 Total: ₹${orderTotal}\n\n` +
+            `⚠️ Email confirmation failed to send.`
+          );
+        }
       } else {
-        // Email not configured - still process order
-        console.warn('⚠️ EmailJS not configured. Skipping email send.');
-        alert(`✅ Order placed successfully!\n\n💰 Total: ₹${orderTotal}\n\n⚠️ Email service not configured.\nPlease contact support for order confirmation.`);
+        console.warn("⚠️ EmailJS not configured. Skipping email send.");
+
+        alert(
+          `✅ Order placed successfully!\n\n` +
+          `🆔 Order ID: ${result._id}\n` +
+          `💰 Total: ₹${orderTotal}\n\n` +
+          `⚠️ Email service not configured.`
+        );
       }
-      
+
       // Clear cart and redirect
       clearCart();
       navigate("/");
-      
     } catch (error) {
-      console.error('Order placement error:', error);
-      
-      // Order placed but email failed
-      alert(`✅ Order placed successfully!\n\n💰 Total: ₹${orderTotal}\n\n⚠️ Email confirmation failed to send.\nWe'll contact you at ${phone} for confirmation.`);
-      
-      // Still clear cart and redirect
-      clearCart();
-      navigate("/");
-      
+      console.error("Order placement error:", error);
+
+      alert(
+        `❌ Order could not be placed.\n\n` +
+        `${error.message}`
+      );
     } finally {
       setIsSubmitting(false);
     }

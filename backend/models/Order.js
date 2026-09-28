@@ -2,6 +2,12 @@ const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema(
   {
+    orderId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -17,7 +23,7 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      default: "Pending",
+      default: "Confirmed",
     },
   },
   { timestamps: true }

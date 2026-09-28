@@ -24,6 +24,7 @@ const Orders = () => {
             marginBottom: "10px",
           }}
         >
+          <p>Order ID: {order.orderId}</p>
           <p>Total: ₹{order.totalAmount}</p>
           <p>Status: {order.status}</p>
         </div>
